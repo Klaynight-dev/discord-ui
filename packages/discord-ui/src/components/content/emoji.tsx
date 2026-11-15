@@ -1,6 +1,6 @@
-import { parse } from "@twemoji/parser";
+import { mediaUrl } from "@arcscord/discord-ui-core";
+import { isUnicodeEmoji } from "@arcscord/discord-ui-core/emoji";
 import { useState } from "react";
-import { mediaUrl } from "../../utils/urls";
 import { useDisplayOptions } from "../display-context";
 import { UnicodeEmoji } from "./unicode-emoji";
 
@@ -36,12 +36,9 @@ function EmojiImage({ name, source }: { name: string; source: string | undefined
 export type EmojiProps = { name: string; image?: string | undefined };
 
 export function Emoji({ name, image }: EmojiProps) {
-  const { allowRemoteMedia } = useDisplayOptions();
-  const unicode = !image
-    ? parse(name)
-    : [];
-  if (unicode.length === 1 && unicode[0]?.text === name)
+  const { allowRemoteMedia, remoteMediaAllowlist } = useDisplayOptions();
+  if (!image && isUnicodeEmoji(name))
     return <UnicodeEmoji content={name} />;
-  const source = mediaUrl(image, allowRemoteMedia);
+  const source = mediaUrl(image, allowRemoteMedia, remoteMediaAllowlist);
   return <EmojiImage key={source} name={name} source={source} />;
 }

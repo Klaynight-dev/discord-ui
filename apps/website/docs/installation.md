@@ -5,17 +5,21 @@ description: Install Arcscord Discord UI, import its stylesheet, and check React
 
 # Installation
 
-## Current package status
+## Install from npm {#current-package-status}
 
-Version **0.1.0** is available on npm. Install it in your React application:
+Install the React package in your application. For Vue, follow the
+[Vue installation guide](/docs/vue#installation).
 
 ```sh
-pnpm add @arcscord/discord-ui@0.1.0
+pnpm add @arcscord/discord-ui
 ```
 
 The package declares **React `^19.0.0`** as its peer dependency. Your application
 provides React and its renderer. This declaration is not evidence that every React
 version or framework has been tested.
+
+The command uses npm's default `latest` tag. To choose a specific release, check
+the [versions on npm](https://www.npmjs.com/package/@arcscord/discord-ui?activeTab=versions).
 
 ## Use the package in this monorepo
 
@@ -46,13 +50,21 @@ After building and packing the library from the repository root:
 
 ```sh
 pnpm build:lib
+pnpm --filter @arcscord/discord-ui-core pack --pack-destination "$PWD/.local/package"
 pnpm --filter @arcscord/discord-ui pack --pack-destination "$PWD/.local/package"
 ```
 
-In a separate React 19 application, install the generated archive using its absolute path:
+In a separate React 19 application, point pnpm to the local core archive in
+`pnpm-workspace.yaml`, then install the React archive. Replace each `X.Y.Z`
+with the version in its archive filename.
+
+```yaml
+overrides:
+  "@arcscord/discord-ui-core": "file:/absolute/path/to/arcscord-discord-ui-core-X.Y.Z.tgz"
+```
 
 ```sh
-pnpm add /absolute/path/to/arcscord-discord-ui-0.1.0.tgz
+pnpm add /absolute/path/to/arcscord-discord-ui-X.Y.Z.tgz
 ```
 
 ## Import components and compiled CSS
@@ -107,3 +119,16 @@ documentation, not JavaScript exports.
 Continue to [Quick start](./quick-start.mdx) for a complete module with data and a
 rendered preview. If the preview has no styling, check the
 [styling checklist](./troubleshooting.md#styling-and-media).
+
+## Shared core and framework adapters
+
+The React package uses `@arcscord/discord-ui-core` for display models, content
+processing, themes and styles. Existing React imports remain valid, and its CSS
+entry remains complete. React and core versions are independent; their dependency
+range expresses compatibility. Projects using a lockfile must update their
+resolved core dependency to receive compatible JavaScript fixes. To receive a
+fix to the bundled stylesheet, install an adapter release built with the updated core.
+
+Vue applications can use the [native Vue adapter](/docs/vue). For architecture
+and framework-independent entry points, see the
+[Core README](https://github.com/arcscord/discord-ui/tree/main/packages/discord-ui-core#readme).

@@ -1,0 +1,84 @@
+---
+title: Vue
+slug: /vue
+sidebar_label: Vue — getting started
+description: Use native Vue components, typed events and slots with the shared Discord display models.
+---
+
+import VueExample from '@site/src/components/docs/vue/VueExample';
+
+# Vue
+
+`@arcscord/discord-ui-vue` is the native Vue adapter. It requires Vue 3.5 or later
+in the Vue 3 line. The core and adapters have independent versions.
+
+## Installation
+
+Use the package name to install the version selected by npm's `latest` tag.
+Check [npm versions](https://www.npmjs.com/package/@arcscord/discord-ui-vue?activeTab=versions)
+to choose a specific release.
+
+```sh
+pnpm add @arcscord/discord-ui-vue
+```
+
+Import `@arcscord/discord-ui-vue/styles.css` once. It is complete; no React, Tailwind,
+global reset, remote font or additional core CSS import is required.
+
+To test local builds, install the Vue tarball and point a `pnpm-workspace.yaml`
+override for `@arcscord/discord-ui-core` at the matching Core tarball.
+
+## Examples
+
+Each preview mounts the Vue component from the copyable SFC below it. Copy
+the example into a Vue application to edit its data, template and event handlers.
+
+- [Messages and display models](#first-message)
+- [Button events, selections and reactions](#events-and-controlled-selections)
+- [Channels, composers, slash commands and threads](#channels-commands-and-threads)
+- [Slots, embeds, galleries and Components V2](#slots-and-content)
+- [Media and emoji](./media.mdx)
+- [Themes, locale and interface labels](./themes.mdx)
+
+## First message
+
+The same serializable display models work with React and Vue. Timestamps and the
+reference clock are explicit. These examples simulate local interactions without
+calling Discord.
+
+<VueExample id="first-message" />
+
+## Events and controlled selections
+
+Callbacks become typed Vue events. `SelectMenu` uses `v-model:values`; absent
+values use local state, while an empty array is an explicitly controlled empty
+selection. The application updates message reactions and other persisted data.
+On `Message`, use `:select-values` for a map keyed by component ID.
+`@select-change` reports the component ID, selected values and message
+context so the host can update that map.
+
+<VueExample id="interactions" />
+
+## Channels, commands and threads
+
+`ChannelComposer` uses `v-model`. `ChannelView` supports
+`v-model:active-thread-id`; omit the prop for local navigation or pass `null` to
+close a controlled thread. `send`, `thread-send` and `slash-command` report intent;
+the host updates channel data. An absent send listener preserves read-only behavior.
+
+<VueExample id="conversation" />
+
+## Slots and content
+
+Children become the default slot. Named slots replace the React content props.
+`Button.variant` selects its appearance. Vue's `style` and `class` remain ordinary
+attributes. Give buttons with only an emoji an accessible `aria-label`.
+Use `:render-code="renderHighlightedCode"` to opt into syntax highlighting
+through the separate `./highlight` entry.
+
+<VueExample id="slots-and-content" />
+
+See the [complete Vue API](/docs/vue/api) for every component, prop, event and slot, and
+[SSR and hydration](/docs/vue/ssr) for server integration. All three themes, custom token
+inheritance, labels, locale/time zone, blocked remote media and image fallbacks
+use the shared core policies. Nuxt and other frameworks are not validated here.

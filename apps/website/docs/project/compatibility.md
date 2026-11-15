@@ -5,12 +5,13 @@ description: Declared package requirements and the boundaries of local verificat
 
 # Compatibility and limitations
 
-Separate a declared contract from a tested environment. The repository currently
-uses a single documentation version for its stable `0.1.0` release.
+Separate a declared contract from a tested environment. This site documents the
+current repository, including changes ahead of the stable npm releases.
 
 | Area | Repository contract / evidence | Limit |
 | --- | --- | --- |
 | React | Peer range `^19.0.0`; local website uses the installed React 19 dependency | No claim that every peer-range patch or framework is tested |
+| Vue | Peer range `^3.5.0`; packed consumers are tested with Vue 3.5.0 and the workspace Vue version | Standalone Vue SSR and Chromium hydration coverage. Nuxt and additional Vue versions require separate validation. |
 | Modules | ESM output targeting ES2022; root, themes, highlight and CSS exports | No CommonJS export |
 | Styles | Compiled scoped CSS; Light/Ash/Dark and semantic tokens | Hosts must import CSS and review custom contrast/layout |
 | SSR | Deterministic fixture rendering with explicit locale, time zone and reference time | Not proof of universal framework or React Server Components integration |

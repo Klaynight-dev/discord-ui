@@ -20,7 +20,9 @@ The website consumes the built library. Run `pnpm build:lib` after library chang
 
 | Path | Purpose |
 | --- | --- |
-| `packages/discord-ui` | React components, serializable models, themes and compiled CSS |
+| `packages/discord-ui-core` | Framework-independent models, content processing, themes and source CSS |
+| `packages/discord-ui-vue` | Native Vue renderer, SFCs, typed events and slots |
+| `packages/discord-ui` | React components, shared contract re-exports and standalone compiled CSS |
 | `apps/website` | Docusaurus documentation, catalogue and integrated playground |
 | `fixtures` | Synthetic data shared by examples and tests |
 | `tests/website` | Playwright interaction checks |
@@ -34,7 +36,7 @@ Run commands from the repository root. Choose checks that cover the change:
 | Command | Purpose |
 | --- | --- |
 | `pnpm dev` / `pnpm dev:website` | Build the library and start Docusaurus |
-| `pnpm build:lib` | Build library ESM, declarations and CSS |
+| `pnpm build:lib` | Build core then React ESM, declarations and CSS |
 | `pnpm build:website` | Build the library and production website |
 | `pnpm build` | Build all workspace packages |
 | `pnpm lint` | Check lint and formatting without editing |
@@ -42,7 +44,7 @@ Run commands from the repository root. Choose checks that cover the change:
 | `pnpm typecheck` | Check workspace and script types |
 | `pnpm test` / `pnpm test:watch` | Run unit/SSR tests once or in watch mode |
 | `pnpm test:website` / `pnpm test:browser` | Build and run website Chromium checks |
-| `pnpm pack:check` | Verify a built tarball in an isolated consumer |
+| `pnpm pack:check` | Verify core alone and both built tarballs in isolated consumers |
 | `pnpm check` | Run lint, types, unit tests, build and tarball verification |
 | `pnpm docs:api` | Build the library and generate API documentation |
 | `pnpm docs:api:check` | Check generated API freshness after a library build |
@@ -51,8 +53,8 @@ Run commands from the repository root. Choose checks that cover the change:
 | `pnpm clean` | Remove build output and coverage |
 
 Tests importing the public package require `pnpm build:lib` first. Public API or
-packaging changes also need `pnpm pack:check` after a build. That check installs
-pinned dependencies in a temporary consumer, requires registry access and removes
+packaging changes also need `pnpm pack:check` after a build. That check requires installed Chromium for Vue hydration and installs
+pinned dependencies in temporary framework-free and React consumers, requires registry access and removes
 the temporary directory afterward. It does not publish a package.
 
 For website interactions, install Chromium once with
@@ -79,8 +81,8 @@ commits, and commitlint checks Conventional Commits, such as
 
 ## Maintainer guides
 
-The current stable package version is `0.1.0`. Release automation is defined in
-the repository; GitHub/npm account configuration must be checked separately.
+The Core, React and Vue packages have independent releases. The repository defines
+release automation, and GitHub and npm hold the publishing configuration.
 
 - [CI and npm releases](./docs/maintainers/releases.md).
 - [Website deployment](./docs/maintainers/deployment.md).

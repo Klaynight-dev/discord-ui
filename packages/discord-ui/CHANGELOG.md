@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0
+
+- Extract shared models, themes, styles and content processing into
+  `@arcscord/discord-ui-core`, with independent versions and a compatible dependency.
+  Existing React imports and behavior are preserved; no consumer migration is required.
+- Add `DiscordUI.remoteMediaAllowlist` for specific HTTP(S) sources when
+  `allowRemoteMedia` is disabled.
+
 ## 0.2.0
 
 Configure Unicode emoji rendering without consumer patches, serve Twemoji locally
@@ -33,7 +41,7 @@ appearance must configure an explicit Twemoji source.
 
 ### Migration from 0.1.0
 
-After publication, update the dependency:
+To upgrade specifically to `0.2.0`, update the dependency:
 
 ```sh
 pnpm add @arcscord/discord-ui@0.2.0

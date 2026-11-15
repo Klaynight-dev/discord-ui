@@ -1,9 +1,7 @@
+import type { ChannelSelectOptionView, ResolvedSelectOption, SelectMenuView } from "@arcscord/discord-ui-core";
 import type { CSSProperties, KeyboardEvent } from "react";
-import type { ChannelSelectOptionView, SelectMenuView } from "../../model/components";
-import type { ResolvedSelectOption } from "../../utils/select-menus";
+import { defaultSelectValues, mediaUrl, selectOptions } from "@arcscord/discord-ui-core";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
-import { defaultSelectValues, selectOptions } from "../../utils/select-menus";
-import { mediaUrl } from "../../utils/urls";
 import { Emoji } from "../content/emoji";
 import { defaults, useDisplayOptions } from "../display-context";
 
@@ -57,7 +55,7 @@ function SelectAvatar({ source, label }: { source: string | undefined; label: st
 }
 
 function OptionIcon({ option, chip = false }: { option: ResolvedSelectOption; chip?: boolean }) {
-  const { allowRemoteMedia, labels } = useDisplayOptions();
+  const { allowRemoteMedia, remoteMediaAllowlist, labels } = useDisplayOptions();
   const statuses = {
     online: labels.userOnline,
     idle: labels.userIdle,
@@ -65,7 +63,7 @@ function OptionIcon({ option, chip = false }: { option: ResolvedSelectOption; ch
     offline: labels.userOffline,
   };
   if (option.entityType === "user") {
-    const avatar = mediaUrl(option.avatarUrl, allowRemoteMedia);
+    const avatar = mediaUrl(option.avatarUrl, allowRemoteMedia, remoteMediaAllowlist);
     return (
       <span className="dui-select-avatar">
         <SelectAvatar key={avatar} source={avatar} label={option.label} />

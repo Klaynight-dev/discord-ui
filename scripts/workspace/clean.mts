@@ -7,6 +7,10 @@ if (process.argv.length > 2)
   throw new Error("Usage: pnpm clean (no arguments).");
 for (const output of [
   "packages/discord-ui/dist",
+  "packages/discord-ui-core/dist",
+  "packages/discord-ui-vue/dist",
+  "apps/website/src/generated/vue-demos",
+  "apps/website/static/generated/vue-ssr",
   "apps/website/build",
   "apps/website/.docusaurus",
   "coverage",

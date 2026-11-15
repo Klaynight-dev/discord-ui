@@ -72,6 +72,17 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Vue",
+      items: [
+        "vue/index",
+        "vue/media",
+        "vue/themes",
+        "vue/ssr",
+        "vue/api",
+      ],
+    },
+    {
+      type: "category",
       label: "API reference",
       link: {
         type: "doc",

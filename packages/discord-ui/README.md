@@ -1,5 +1,14 @@
 # @arcscord/discord-ui
 
+Shared models, content processing, themes and styles come from
+`@arcscord/discord-ui-core`, a framework-independent package with its own version.
+Existing React imports, including `themes`, `highlight` and `styles.css`, remain
+available. The React stylesheet is still complete and needs no extra CSS import.
+Update your lockfile to receive compatible core JavaScript fixes. For fixes to
+the bundled stylesheet, install a React release built with the updated core.
+The native Vue adapter is `@arcscord/discord-ui-vue`.
+
+
 Composable React components and serializable TypeScript models for Discord message interfaces.
 
 [Documentation](https://ui.arcscord.dev/docs/introduction) ·
@@ -8,15 +17,14 @@ Composable React components and serializable TypeScript models for Discord messa
 
 ## Installation
 
-This checkout prepares **0.2.0**. See the [release notes](./CHANGELOG.md) for the
-Unicode emoji migration. After publication, install it from npm:
+Install the React package in your application.
 
 ```sh
-pnpm add @arcscord/discord-ui@0.2.0
+pnpm add @arcscord/discord-ui
 ```
 
 See the [installation guide](https://ui.arcscord.dev/docs/installation) for
-workspace and local package usage.
+workspace and local package usage, and the [changelog](./CHANGELOG.md) for release notes.
 
 Requires **React `^19.0.0`**, supplied by your application. The package ships ESM
 and precompiled, scoped CSS. No Tailwind setup, global reset or remote font is required.
@@ -77,8 +85,12 @@ data, with no implicit clock. Keep display options and initial data equal during
 server rendering and hydration.
 
 Use `allowRemoteMedia={false}` to block remote image resources, including avatars
-and emoji, while allowing root-relative local assets. Unicode emoji default to
-native text; no CDN is implicit. To use self-hosted Twemoji SVG files:
+and emoji, while allowing root-relative local assets. Set
+`remoteMediaAllowlist={["https://cdn.discordapp.com/emojis/"]}` to permit custom
+emoji images from this CDN directory. Supply image URLs in `entities.emojis` or
+resolved emoji models. Entries accept a full HTTP(S) origin, a directory ending
+in `/`, or an exact path. Unicode emoji default to native text. To use
+self-hosted Twemoji SVG files, configure the base URL.
 
 ```tsx
 <DiscordUI
@@ -93,7 +105,8 @@ Serve files directly under `baseUrl` (for example `2764.svg` for ❤️). The pa
 uses lowercase, hyphenated Twemoji code points. Missing, blocked or failed images
 fall back to Unicode. This applies to text, Markdown, reactions, buttons and
 selects; code remains literal. Use `{ mode: "native" }` for device emoji.
-An explicit HTTP(S) `baseUrl` also requires remote media to be allowed. Hosts own
+For an HTTP(S) `baseUrl`, allow remote media or add the SVG directory to
+`remoteMediaAllowlist`. Hosts own
 the asset version, coverage and Twemoji graphics attribution (CC-BY 4.0).
 
 This replaces the previous implicit jsDelivr rendering: consumers wanting images
